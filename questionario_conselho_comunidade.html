@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUESTIONÁRIO – CONSELHO ESCOLAR</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(160deg, #12315c 0%, #1b4b7a 45%, #0f6e63 100%);
+  min-height: 100vh;
+  padding: 1.25rem 0.9rem 3rem;
+  color: #1a1a1a;
+}
+.container { max-width: 680px; margin: 0 auto; }
+.header { text-align: center; color: white; margin-bottom: 1rem; animation: fadeDown .6s ease; }
+.header .school { font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; opacity: .85; }
+.header .school-tag { font-size: 11.5px; font-style: italic; opacity: .75; margin-bottom: 6px; }
+.header .emoji { font-size: 40px; display: block; margin: 6px 0 2px; }
+.header h1 { font-size: 20px; font-weight: 900; line-height: 1.3; }
+.header .subtitle { font-size: 12.5px; opacity: .85; margin-top: 4px; }
+.header .tagline { font-size: 12.5px; margin-top: 8px; font-weight: 700; color: #ffe27a; }
+.intro-card {
+  background: rgba(255,255,255,.94); border-radius: 16px; padding: 14px 16px; margin-bottom: .8rem;
+  font-size: 13px; line-height: 1.5; color: #223; animation: fadeUp .5s ease both; box-shadow: 0 6px 20px rgba(0,0,0,.12);
+}
+.intro-card b { display: block; margin-top: 6px; color: #0f6e63; }
+.instructions-bar {
+  background: rgba(255,255,255,.94); border-radius: 16px; padding: 12px 16px; margin-bottom: 1rem;
+  font-size: 12.5px; box-shadow: 0 6px 20px rgba(0,0,0,.12); animation: fadeUp .5s ease both .05s;
+}
+.instructions-bar .how { font-weight: 800; color: #12315c; margin-bottom: 6px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; }
+.legend-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 11.5px; }
+.progress-bar-wrap { background: rgba(255,255,255,.25); border-radius: 20px; height: 9px; margin-bottom: .4rem; overflow: hidden; position: sticky; top: 8px; z-index: 5; }
+.progress-bar-fill { height: 100%; background: #4ade80; border-radius: 20px; transition: width .3s ease; width: 0%; }
+.progress-label { text-align: center; font-size: 12.5px; color: rgba(255,255,255,.9); margin-bottom: 1rem; font-weight: 800; }
+.section { margin-bottom: 1.1rem; animation: fadeUp .5s ease both; }
+.section-title {
+  color: white; font-weight: 900; font-size: 13.5px; letter-spacing: .3px; text-transform: uppercase;
+  padding: 8px 14px; border-radius: 12px; margin-bottom: .6rem; display: inline-block;
+}
+.q-card {
+  background: white; border-radius: 16px; padding: 14px 16px; margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08); border-left: 5px solid #cbd5e1; scroll-margin-top: 70px;
+}
+.q-card.missing { border-left-color: #ef4444; box-shadow: 0 0 0 2px #fecaca inset; }
+.q-text { font-size: 14px; font-weight: 700; color: #16213a; line-height: 1.45; margin-bottom: 10px; }
+.q-num { color: #7c8aa5; font-weight: 900; margin-right: 4px; }
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt-btn {
+  border: 2px solid #e5e7eb; background: #f8fafc; border-radius: 12px; padding: 9px 14px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: #475569; cursor: pointer;
+  transition: all .15s ease; display: inline-flex; align-items: center; gap: 6px;
+}
+.opt-btn:hover { border-color: #94a3b8; }
+.opt-btn.selected { color: white; border-color: transparent; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,.18); }
+.multi-list { display: flex; flex-direction: column; gap: 7px; }
+.chk-row {
+  display: flex; align-items: center; gap: 10px; border: 2px solid #e5e7eb; border-radius: 12px;
+  padding: 9px 12px; cursor: pointer; transition: all .15s ease;
+}
+.chk-row:hover { border-color: #94a3b8; background: #f8fafc; }
+.chk-row.checked { border-color: #6366f1; background: #eef2ff; }
+.chk-box {
+  width: 20px; height: 20px; border-radius: 6px; border: 2px solid #cbd5e1; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; font-weight: 900;
+}
+.chk-row.checked .chk-box { background: #6366f1; border-color: #6366f1; }
+.chk-label { font-size: 13px; font-weight: 700; color: #334155; }
+.other-input {
+  margin-top: 6px; width: 100%; padding: 9px 12px; border: 2px solid #e5e7eb; border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 13px; outline: none;
+}
+.other-input:focus { border-color: #6366f1; }
+.max-note { font-size: 11px; color: #7c8aa5; font-weight: 700; margin-top: 4px; }
+.btn-enviar {
+  width: 100%; padding: 16px; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: white;
+  background: linear-gradient(135deg,#0f6e63,#12315c); border: none; border-radius: 16px; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3); margin-top: .4rem; transition: transform .15s ease;
+}
+.btn-enviar:hover { transform: translateY(-2px); }
+.btn-enviar:disabled { background: linear-gradient(135deg,#9ca3af,#6b7280); box-shadow: none; cursor: not-allowed; }
+.msg-erro {
+  background: #fee2e2; color: #991b1b; border-radius: 12px; padding: 11px 14px; font-size: 13px;
+  font-weight: 800; text-align: center; margin-top: 10px; display: none;
+}
+#tela-fim { display: none; text-align: center; color: white; animation: fadeIn .6s ease; padding-top: 2rem; }
+#tela-fim .emoji { font-size: 60px; display: block; margin-bottom: 10px; animation: bounce .8s ease; }
+#tela-fim h2 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
+#tela-fim p { font-size: 14px; opacity: .9; max-width: 420px; margin: 0 auto; line-height: 1.5; }
+.footer-tags {
+  margin-top: 1.4rem; background: rgba(0,0,0,.28); border-radius: 14px; padding: 10px 14px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; font-size: 10.5px;
+  font-weight: 800; color: #d7e3f0; letter-spacing: .3px; text-transform: uppercase;
+}
+.loading-dots { display: inline-flex; gap: 4px; }
+.loading-dots span { width: 7px; height: 7px; border-radius: 50%; background: white; animation: blink 1.2s infinite; }
+.loading-dots span:nth-child(2) { animation-delay: .2s; }
+.loading-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+@keyframes bounce { 0%,100%{transform:scale(1)}40%{transform:scale(1.2)}70%{transform:scale(.95)} }
+@keyframes blink { 0%,80%,100%{opacity:0}40%{opacity:1} }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="tela-form">
+    <div class="header">
+      <div class="school">ESCOLA MUNICIPAL LYCIA PEDRAL</div>
+      <div class="school-tag">Escola: um espaço plural e de diversidade social</div>
+      <span class="emoji">🤝</span>
+      <h1>QUESTIONÁRIO – CONSELHO ESCOLAR</h1>
+      <div class="subtitle">E Representantes da Comunidade · Reformulação do Projeto Político-Pedagógico (PPP)</div>
+      <div class="tagline">Escola e comunidade, juntas por mais conquistas!</div>
+    </div>
+
+    <div class="intro-card">
+      Este questionário tem como objetivo conhecer a sua percepção sobre a Escola Municipal Lycia Pedral, contribuindo para a reformulação e atualização do Projeto Político-Pedagógico (PPP).
+      <b>O questionário é anônimo. Responda com sinceridade!</b>
+    </div>
+
+    <div class="instructions-bar">
+      <div class="how">📋 Marque apenas uma opção em cada pergunta.</div>
+      <div class="legend"><span class="legend-chip" style="background:#dcfce7;color:#16a34a">Sim</span><span class="legend-chip" style="background:#fce7f3;color:#be185d">Não</span><span class="legend-chip" style="background:#fef3c7;color:#b45309">Parcialmente</span></div>
+    </div>
+
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar"></div></div>
+    <div class="progress-label" id="progress-label">0 de 34 respondidas</div>
+
+    <div id="sections-root"></div>
+
+    <button class="btn-enviar" id="btnEnviar" onclick="enviar()">Enviar respostas 📨</button>
+    <div class="msg-erro" id="msgErro"></div>
+
+    <div class="footer-tags"><span>RESPEITO</span><span>· PARTICIPAÇÃO</span><span>· DIÁLOGO</span><span>· INCLUSÃO</span><span>· APRENDIZAGEM</span><span>· COMUNIDADE</span><span>· UM FUTURO MELHOR</span></div>
+  </div>
+
+  <div id="tela-fim">
+    <span class="emoji">💚</span>
+    <h2>Obrigado pela participação!</h2>
+    <p>Suas respostas foram registradas de forma anônima e vão ajudar a construir o novo Projeto Político-Pedagógico da Escola Municipal Lycia Pedral.</p>
+  </div>
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwt5ABi_FLi3hobhj2yQ3qpBA5endsILZoTQPxgfVZ2Orm3-XVyeqk_rJ2sRuyds4O1/exec";
+const DATA = {"id": "conselho_comunidade", "sheet_tab": "Conselho e Comunidade", "sections": [{"title": "PARTICIPAÇÃO DA COMUNIDADE", "color": "#60a5fa", "questions": [{"id": "q1", "type": "scale", "text": "A comunidade participa das decisões da escola?"}, {"id": "q2", "type": "scale", "text": "As famílias têm espaço para apresentar suas necessidades e sugestões?"}, {"id": "q3", "type": "scale", "text": "Os estudantes têm espaço de participação?"}, {"id": "q4", "type": "scale", "text": "A escola dialoga com a comunidade do entorno?"}, {"id": "q5", "type": "scale", "text": "O Conselho Escolar representa os interesses da comunidade?"}]}, {"title": "COMUNICAÇÃO E TRANSPARÊNCIA", "color": "#f472b6", "questions": [{"id": "q6", "type": "scale", "text": "As informações sobre a escola são compartilhadas de forma clara e transparente?"}, {"id": "q7", "type": "scale", "text": "A escola mantém uma boa comunicação com a comunidade?"}, {"id": "q8", "type": "scale", "text": "Você recebe informações sobre os projetos, resultados e ações da escola?"}, {"id": "q9", "type": "scale", "text": "A escola presta contas das suas ações de forma acessível?"}, {"id": "q10", "type": "scale", "text": "Você considera que a comunicação entre escola e comunidade pode ser melhorada?"}]}, {"title": "CONHECIMENTO DA REALIDADE ESCOLAR", "color": "#34d399", "questions": [{"id": "q11", "type": "scale", "text": "Você considera que a escola conhece bem a realidade da comunidade?"}, {"id": "q12", "type": "scale", "text": "As ações da escola atendem às necessidades dos estudantes e das famílias?"}, {"id": "q13", "type": "scale", "text": "A escola valoriza a história, a cultura e as características da comunidade?"}, {"id": "q14", "type": "scale", "text": "Existe escuta ativa da comunidade para o planejamento das ações da escola?"}]}, {"title": "APRENDIZAGEM E DESENVOLVIMENTO", "color": "#fbbf24", "questions": [{"id": "q15", "type": "scale", "text": "Você acredita que a escola oferece um ensino de qualidade?"}, {"id": "q16", "type": "scale", "text": "A escola desenvolve ações para melhorar a aprendizagem dos estudantes?"}, {"id": "q17", "type": "scale", "text": "A escola se preocupa com a formação integral dos estudantes (acadêmica, social e cidadã)?"}, {"id": "q18", "type": "scale", "text": "A escola oferece oportunidades de participação em projetos esportivos, culturais e sociais?"}]}, {"title": "INCLUSÃO E RESPEITO ÀS DIVERSIDADES", "color": "#a78bfa", "questions": [{"id": "q19", "type": "scale", "text": "A escola demonstra respeito às diferenças?"}, {"id": "q20", "type": "scale", "text": "A escola está preparada para atender estudantes com diferentes necessidades?"}, {"id": "q21", "type": "scale", "text": "A escola desenvolve ações de combate à discriminação, ao preconceito e ao bullying?"}, {"id": "q22", "type": "scale", "text": "A comunidade se sente acolhida na escola?"}]}, {"title": "ESTRUTURA E AMBIENTE", "color": "#fb923c", "questions": [{"id": "q23", "type": "scale", "text": "A estrutura física da escola atende às necessidades da comunidade escolar?"}, {"id": "q24", "type": "scale", "text": "A escola possui espaços adequados para as atividades dos estudantes?"}, {"id": "q25", "type": "scale", "text": "A escola é um ambiente seguro?"}, {"id": "q26", "type": "scale", "text": "A comunidade contribui para a preservação do patrimônio da escola?"}]}, {"title": "PARCERIAS E REDE DE APOIO", "color": "#38bdf8", "questions": [{"id": "q27", "type": "scale", "text": "A escola mantém parcerias com instituições da comunidade?"}, {"id": "q28", "type": "scale", "text": "Essas parcerias contribuem para o desenvolvimento dos estudantes?"}, {"id": "q29", "type": "scale", "text": "A escola participa de ações e projetos no território?"}, {"id": "q30", "type": "scale", "text": "Você acredita que a escola poderia fortalecer sua relação com a comunidade?"}]}, {"title": "VISÃO DE FUTURO", "color": "#f87171", "questions": [{"id": "q31", "type": "scale", "text": "Você acredita que a Escola Lycia Pedral tem potencial para se tornar uma referência em seu território?"}, {"id": "q32", "type": "scale", "text": "Você gostaria de participar mais das ações da escola?"}, {"id": "q33", "type": "scale", "text": "Você se sente motivado(a) a continuar contribuindo com a escola?"}, {"id": "q34", "type": "scale", "text": "Você recomendaria a Escola Lycia Pedral para outras famílias da comunidade?"}]}]};
+const SCALE_OPTIONS = [{"label": "Sim", "icon": null, "color": "#16a34a", "bg": "#dcfce7"}, {"label": "Não", "icon": null, "color": "#be185d", "bg": "#fce7f3"}, {"label": "Parcialmente", "icon": null, "color": "#b45309", "bg": "#fef3c7"}];
+
+const answers = {};
+let totalQuestions = 0;
+DATA.sections.forEach(function(sec) {
+  sec.questions.forEach(function(q) {
+    totalQuestions++;
+    if (q.type === 'multi') answers[q.id] = [];
+    else answers[q.id] = null;
+    if (q.other) answers[q.id + '_outro'] = '';
+  });
+});
+
+function renderOptions(q, opts) {
+  let html = '<div class="options">';
+  opts.forEach(function(opt) {
+    const label = typeof opt === 'string' ? opt : opt.label;
+    const icon = typeof opt === 'string' ? '' : (opt.icon || '');
+    const color = typeof opt === 'string' ? '#6366f1' : opt.color;
+    html += '<button type="button" class="opt-btn" data-q="' + q.id + '" data-v="' + label.replace(/"/g,'&quot;') + '" data-color="' + color + '" onclick="selOne(this)">' + (icon ? icon + ' ' : '') + label + '</button>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderMulti(q) {
+  let html = '<div class="multi-list">';
+  q.options.forEach(function(opt) {
+    html += '<div class="chk-row" data-q="' + q.id + '" data-v="' + opt.replace(/"/g,'&quot;') + '" onclick="toggleMulti(this)"><div class="chk-box"></div><div class="chk-label">' + opt + '</div></div>';
+  });
+  html += '</div>';
+  if (q.max) html += '<div class="max-note">Escolha até ' + q.max + ' opções.</div>';
+  if (q.other) html += '<input class="other-input" type="text" placeholder="Outra (opcional)..." oninput="setOutro(\'' + q.id + '\', this.value)">';
+  return html;
+}
+
+function buildUI() {
+  const root = document.getElementById('sections-root');
+  let qCounter = 0;
+  DATA.sections.forEach(function(sec) {
+    const secDiv = document.createElement('div');
+    secDiv.className = 'section';
+    let inner = '';
+    if (sec.title) {
+      inner += '<div class="section-title" style="background:' + sec.color + '">' + sec.title + '</div>';
+    }
+    sec.questions.forEach(function(q) {
+      qCounter++;
+      inner += '<div class="q-card" id="card-' + q.id + '">';
+      inner += '<div class="q-text"><span class="q-num">' + qCounter + '.</span>' + q.text + '</div>';
+      if (q.type === 'scale') {
+        inner += renderOptions(q, q.options || SCALE_OPTIONS);
+      } else if (q.type === 'single') {
+        inner += renderOptions(q, q.options);
+      } else if (q.type === 'multi') {
+        inner += renderMulti(q);
+      }
+      inner += '</div>';
+    });
+    secDiv.innerHTML = inner;
+    root.appendChild(secDiv);
+  });
+}
+
+function selOne(btn) {
+  const q = btn.getAttribute('data-q');
+  const v = btn.getAttribute('data-v');
+  const color = btn.getAttribute('data-color');
+  document.querySelectorAll('.opt-btn[data-q="' + q + '"]').forEach(function(b) {
+    b.classList.remove('selected'); b.style.background=''; b.style.borderColor='';
+  });
+  btn.classList.add('selected');
+  btn.style.background = color;
+  btn.style.borderColor = color;
+  answers[q] = v;
+  document.getElementById('card-' + q).classList.remove('missing');
+  updateProgress();
+}
+
+function toggleMulti(row) {
+  const q = row.getAttribute('data-q');
+  const v = row.getAttribute('data-v');
+  const qdef = findQuestion(q);
+  const arr = answers[q];
+  const idx = arr.indexOf(v);
+  if (idx >= 0) {
+    arr.splice(idx, 1);
+    row.classList.remove('checked');
+    row.querySelector('.chk-box').textContent = '';
+  } else {
+    if (qdef.max && arr.length >= qdef.max) return;
+    arr.push(v);
+    row.classList.add('checked');
+    row.querySelector('.chk-box').textContent = '✓';
+  }
+  document.getElementById('card-' + q).classList.remove('missing');
+  updateProgress();
+}
+
+function setOutro(q, val) { answers[q + '_outro'] = val; }
+
+function findQuestion(id) {
+  for (const sec of DATA.sections) for (const q of sec.questions) if (q.id === id) return q;
+  return null;
+}
+
+function isAnswered(q) {
+  if (q.type === 'multi') return answers[q.id].length > 0;
+  return answers[q.id] !== null && answers[q.id] !== '';
+}
+
+function updateProgress() {
+  let n = 0;
+  DATA.sections.forEach(function(sec) { sec.questions.forEach(function(q) { if (isAnswered(q)) n++; }); });
+  document.getElementById('progress-bar').style.width = (n / totalQuestions * 100) + '%';
+  document.getElementById('progress-label').textContent = n + ' de ' + totalQuestions + ' respondidas';
+}
+
+function enviar() {
+  const faltando = [];
+  DATA.sections.forEach(function(sec) {
+    sec.questions.forEach(function(q) {
+      if (!isAnswered(q)) faltando.push(q.id);
+    });
+  });
+  if (faltando.length > 0) {
+    mostrarErro('⚠️ Ainda faltam ' + faltando.length + ' pergunta(s) sem resposta!');
+    faltando.forEach(function(id) { document.getElementById('card-' + id).classList.add('missing'); });
+    document.getElementById('card-' + faltando[0]).scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  const btn = document.getElementById('btnEnviar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span>';
+  const payload = { formId: DATA.id, sheetTab: DATA.sheet_tab, horario: new Date().toLocaleString('pt-BR') };
+  DATA.sections.forEach(function(sec) {
+    sec.questions.forEach(function(q) {
+      payload[q.id] = q.type === 'multi' ? answers[q.id].join('; ') : answers[q.id];
+      if (q.other) payload[q.id + '_outro'] = answers[q.id + '_outro'] || '';
+    });
+  });
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+    .then(function(r) { return r.json(); }).catch(function() { return {}; })
+    .finally(function() {
+      document.getElementById('tela-form').style.display = 'none';
+      document.getElementById('tela-fim').style.display = 'block';
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+}
+
+function mostrarErro(msg) {
+  const el = document.getElementById('msgErro');
+  el.textContent = msg; el.style.display = 'block';
+  const btn = document.getElementById('btnEnviar');
+  btn.disabled = false; btn.innerHTML = 'Enviar respostas 📨';
+  setTimeout(function() { el.style.display = 'none'; }, 4500);
+}
+
+buildUI();
+updateProgress();
+</script>
+</body>
+</html>
